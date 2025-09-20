@@ -137,7 +137,7 @@ function HomeContent() {
         deathYear: searchQuery.deathYear,
         locationText: searchQuery.locationText,
       };
-      const response = await fetch("http://localhost:3000/getData", {
+      const response = await fetch("http://пом-ни.рф/api/getData", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -196,7 +196,7 @@ function HomeContent() {
       } else if (typeof addForm.imageFile === "string") {
         formData.append("imageUrl", addForm.imageFile);
       }
-      const response = await fetch("http://localhost:3000/saveData", {
+      const response = await fetch("http://пом-ни.рф/api/saveData", {
         method: "POST",
         body: formData,
       });
@@ -284,7 +284,7 @@ function HomeContent() {
     try {
       const formData = new FormData();
       formData.append("image", file);
-      const response = await fetch("http://localhost:3000/crop-ocr", {
+      const response = await fetch("http://пом-ни.рф/api/crop-ocr", {
         method: "POST",
         body: formData,
       });
@@ -350,7 +350,7 @@ function HomeContent() {
       if (addForm.imageFile) {
         formData.append("imageFile", addForm.imageFile);
       }
-      const response = await fetch("http://localhost:3000/saveData", {
+      const response = await fetch("http://пом-ни.рф/api/saveData", {
         method: "POST",
         body: formData,
       });
@@ -404,7 +404,7 @@ function HomeContent() {
       try {
         const formData = new FormData();
         formData.append("image", file);
-        const response = await fetch("http://localhost:3000/crop", {
+        const response = await fetch("http://пом-ни.рф/api/crop", {
           method: "POST",
           body: formData,
         });
@@ -732,14 +732,14 @@ function HomeContent() {
                   {paginatedResults.map((record) => (
                     <div key={record.id} className={styles.card}>
                       <Image
-                        src={`http://localhost:3000${record.imagePath}`}
+                        src={`http://пом-ни.рф/api${record.imagePath}`}
                         alt="tombstone"
                         width={400}
                         height={400}
                         className={styles.img}
                         onClick={() =>
                           setSelectedMemoryImage(
-                            `http://localhost:3000${record.imagePath}`
+                            `http://пом-ни.рф/api${record.imagePath}`
                           )
                         }
                       />
