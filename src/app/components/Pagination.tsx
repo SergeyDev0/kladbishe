@@ -22,11 +22,7 @@ export default function Pagination({
   const searchParams = useSearchParams();
   
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-  
-  // Если страниц меньше или равно 1, не показываем пагинацию
-  if (totalPages <= 1) {
-    return null;
-  }
+  const showPagination = totalPages > 1;
 
   const createPageURL = useCallback((pageNumber: number) => {
     const params = new URLSearchParams(searchParams);
@@ -36,7 +32,16 @@ export default function Pagination({
 
   const handlePageChange = (pageNumber: number) => {
     if (pageNumber >= 1 && pageNumber <= totalPages) {
-      router.push(createPageURL(pageNumber));
+      router.push(createPageURL(pageNumber), { scroll: false });
+      // Плавно скроллим к заголовку результатов
+      if (typeof window !== 'undefined') {
+        requestAnimationFrame(() => {
+          const el = document.getElementById('resultsTitle');
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      }
     }
   };
 
@@ -94,9 +99,14 @@ export default function Pagination({
 
   const visiblePages = getVisiblePages();
 
+  if (!showPagination) {
+    return null;
+  }
+
   return (
     <div className={styles.pagination}>
       <button
+        type="button"
         onClick={handlePrevious}
         disabled={currentPage === 1}
         className={`${styles.pageButton} ${styles.prevButton} ${currentPage === 1 ? styles.disabled : ''}`}
@@ -111,6 +121,7 @@ export default function Pagination({
             <span className={styles.ellipsis}>...</span>
           ) : (
             <button
+              type="button"
               onClick={() => handlePageChange(page as number)}
               className={`${styles.pageButton} ${currentPage === page ? styles.active : ''}`}
               aria-label={`Страница ${page}`}
@@ -123,6 +134,7 @@ export default function Pagination({
       ))}
       
       <button
+        type="button"
         onClick={handleNext}
         disabled={currentPage === totalPages}
         className={`${styles.pageButton} ${styles.nextButton} ${currentPage === totalPages ? styles.disabled : ''}`}
