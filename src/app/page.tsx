@@ -459,7 +459,7 @@ function HomeContent() {
               </ul>
             </nav>
             <div className={styles.formHeader}>
-              <h2>Найдите или добавьте захороненного</h2>
+              <h2>Найдите захороненного</h2>
               {modeForm === "find" ? (
                 <button type="button" onClick={() => setModeForm("file")}>
                   <Image src="/add.svg" alt="" width={24} height={20} />
